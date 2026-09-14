@@ -132,7 +132,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: { flexGrow: 1, justifyContent: "center", padding: spacing.lg },
-  title: { fontSize: 28, fontWeight: "800", textAlign: "center" },
+  logo: { width: 180, height: 180, alignSelf: "center" },
   subtitle: {
     fontSize: 14,
     textAlign: "center",
