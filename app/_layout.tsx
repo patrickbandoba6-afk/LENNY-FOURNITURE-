@@ -27,7 +27,7 @@ export default function RootLayout() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         if (!session) {
-          setProfile(null);
+          if (!useAuthStore.getState().isGuest) setProfile(null);
           return;
         }
         const current = await sessionService.getCurrentProfile();
