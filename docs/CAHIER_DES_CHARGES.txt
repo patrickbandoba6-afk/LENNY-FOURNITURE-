@@ -1,0 +1,921 @@
+# SCHOOLONE — PROMPT MAÎTRE POUR CLAUDE CODE
+
+Construis une super-application mobile appelée SCHOOLONE.
+
+Slogan :
+« Tout pour l’enfant, en un seul endroit. »
+
+OBJECTIF
+Créer une plateforme complète dédiée aux enfants, parents, élèves, enseignants, écoles et vendeurs. Ce n’est PAS une simple boutique de fournitures.
+
+FONCTIONNALITÉS PRINCIPALES
+- Profils parents et plusieurs enfants
+- Scolarité complète
+- Écoles, classes et enseignants
+- Emploi du temps
+- Devoirs et évaluations
+- Notes et bulletins
+- Assistant IA éducatif
+- Quiz et révisions
+- Fournitures scolaires
+- Listes de fournitures par école/classe
+- Scanner IA d’une liste de fournitures
+- Fonction « Préparer ma rentrée »
+- Livres
+- Uniformes et vêtements scolaires
+- Marketplace multi-vendeurs
+- Panier, commandes et paiements
+- Livraison et suivi
+- Cantine
+- Transport scolaire
+- Activités extrascolaires
+- Documents scolaires
+- Notifications
+- Tableau de bord école
+- Tableau de bord enseignant
+- Tableau de bord vendeur
+- Tableau de bord administrateur
+- Internationalisation France/Afrique/international
+
+STACK PAR DÉFAUT
+Si aucune stack n’existe déjà :
+- React Native
+- Expo
+- TypeScript strict
+- Expo Router
+- Supabase/PostgreSQL
+- Supabase Auth
+- Supabase Storage
+- Zustand ou solution équivalente
+- React Hook Form
+- Zod
+
+IMPORTANT
+Commence par inspecter entièrement le projet existant. Ne supprime pas arbitrairement le travail existant. Adapte-toi à l’architecture existante si elle est cohérente.
+
+==================================================
+SPLASH SCREEN + CACHE DE CHARGEMENT
+==================================================
+
+Au lancement, afficher un Splash Screen premium :
+
+[LOGO SCHOOLONE]
+
+SCHOOLONE
+
+« Tout pour l’enfant, en un seul endroit. »
+
+Barre de progression animée.
+
+Texte :
+« Préparation de votre expérience... »
+
+Animation :
+- Fade In du logo
+- léger Scale
+- progression fluide
+
+Ne pas imposer artificiellement plusieurs secondes de chargement. La durée dépend de l’initialisation réelle.
+
+Au démarrage :
+1. Initialiser l’application.
+2. Initialiser Supabase.
+3. Vérifier la connexion.
+4. Vérifier la session.
+5. Charger le profil.
+6. Charger les permissions.
+7. Charger les enfants du parent si nécessaire.
+8. Charger la configuration.
+9. Charger les données nécessaires au dashboard.
+10. Rediriger vers l’écran adapté.
+
+ROUTAGE :
+- aucune session → Login ou Onboarding
+- PARENT → ParentDashboard
+- STUDENT → StudentDashboard
+- TEACHER → TeacherDashboard
+- SCHOOL_ADMIN → SchoolDashboard
+- SELLER → SellerDashboard
+- DELIVERY_AGENT → DeliveryDashboard
+- ADMIN/SUPER_ADMIN → AdminDashboard
+
+CACHE
+Créer un système de cache intelligent.
+
+Services :
+- cacheService
+- startupService
+- sessionService
+- offlineService
+
+Données pouvant être mises en cache :
+- profil
+- enfants
+- école
+- classe
+- emploi du temps
+- devoirs récents
+- notifications
+- catégories
+- produits récemment consultés
+- panier
+- préférences
+
+Stratégie :
+CACHE-FIRST lorsque possible :
+Cache → afficher rapidement → actualisation serveur en arrière-plan → mise à jour du cache → interface actualisée.
+
+Ne jamais stocker de secrets ou tokens sensibles dans un cache non sécurisé. Utiliser un stockage sécurisé pour les informations d’authentification.
+
+ÉTATS :
+INITIALIZING
+LOADING
+READY
+REFRESHING
+OFFLINE
+ERROR
+
+Créer des Skeleton Loaders pour éviter les écrans blancs.
+
+MODE HORS LIGNE
+Si Internet est indisponible :
+- afficher les données déjà disponibles en cache
+- afficher « Vous êtes actuellement hors connexion »
+- indiquer 🟠 Hors connexion
+- au retour du réseau : 🟢 Connexion rétablie
+- synchroniser automatiquement les données
+
+ERREUR DE DÉMARRAGE
+Ne jamais afficher un écran blanc.
+Afficher :
+« Impossible de charger votre espace. »
+Bouton [Réessayer]
+Et, si possible, [Continuer hors connexion].
+
+==================================================
+RÔLES
+==================================================
+
+SUPER_ADMIN
+ADMIN
+PARENT
+STUDENT
+TEACHER
+SCHOOL_ADMIN
+SELLER
+DELIVERY_AGENT
+
+Chaque rôle ne doit accéder qu’à ses données et fonctionnalités autorisées.
+
+Utiliser Supabase RLS et des contrôles côté serveur. Ne jamais dépendre uniquement du masquage de menus dans l’interface.
+
+==================================================
+AUTHENTIFICATION
+==================================================
+
+Créer :
+- inscription
+- connexion
+- déconnexion
+- mot de passe oublié
+- changement de mot de passe
+- vérification email
+- gestion session
+- suppression compte
+- Google/Apple si disponibles
+
+==================================================
+PARENT / ENFANT
+==================================================
+
+Parent :
+- profil
+- plusieurs enfants
+- enfant actif
+- scolarité
+- notes
+- devoirs
+- achats
+- paiements
+- activités
+- cantine
+- transport
+- documents
+- notifications
+
+Enfant :
+- prénom
+- nom
+- date de naissance
+- classe
+- établissement
+- année scolaire
+- photo
+- informations nécessaires à la scolarité
+
+Ne jamais exposer publiquement les données sensibles concernant les mineurs.
+
+==================================================
+DASHBOARDS
+==================================================
+
+PARENT :
+Accueil
+Enfants
+École
+Boutique
+Profil
+
+STUDENT :
+Accueil
+Cours
+Devoirs
+Assistant
+Profil
+
+TEACHER :
+Accueil
+Classes
+Devoirs
+Notes
+Profil
+
+SELLER :
+Dashboard
+Produits
+Commandes
+Ventes
+Profil
+
+ADMIN :
+Dashboard
+Utilisateurs
+Écoles
+Produits
+Commandes
+Paiements
+Contenus
+Paramètres
+Logs
+
+==================================================
+ÉCOLE
+==================================================
+
+Annuaire des écoles avec :
+- nom
+- adresse
+- téléphone
+- email
+- site
+- description
+- niveaux
+- services
+- calendrier
+- listes de fournitures
+- uniformes
+
+Espace école :
+- classes
+- enseignants
+- élèves
+- listes
+- annonces
+- calendrier
+- menus
+- activités
+- documents
+
+==================================================
+SCOLARITÉ
+==================================================
+
+Créer :
+- emploi du temps
+- devoirs
+- soumissions
+- notes
+- moyennes
+- bulletins
+- absences
+- retards
+- annonces
+- calendrier
+
+Devoirs :
+- matière
+- titre
+- description
+- date limite
+- priorité
+- pièces jointes
+- statut
+
+Statuts :
+À faire / En cours / Terminé / En retard
+
+==================================================
+IA ÉDUCATIVE
+==================================================
+
+Créer un Assistant scolaire.
+
+Fonctions :
+- expliquer un cours
+- expliquer un exercice
+- générer des exercices
+- quiz
+- fiches de révision
+- flashcards
+- corrections pédagogiques
+
+L’IA doit favoriser l’apprentissage et ne pas simplement faire les devoirs à la place de l’élève.
+
+Créer une abstraction AIProvider pour permettre l’ajout futur d’un fournisseur d’IA.
+
+==================================================
+MARKETPLACE
+==================================================
+
+Catégories :
+- fournitures
+- cahiers
+- stylos
+- cartables
+- trousses
+- calculatrices
+- géométrie
+- arts
+- livres
+- uniformes
+- chaussures
+- sport
+- informatique
+- tablettes
+- ordinateurs
+- accessoires
+- services éducatifs
+- activités
+
+Produit :
+- nom
+- description
+- photos
+- prix
+- devise
+- stock
+- SKU
+- catégorie
+- vendeur
+- marque
+- caractéristiques
+- niveau/âge recommandé
+- avis
+- disponibilité
+- livraison
+
+==================================================
+LISTE DE FOURNITURES
+==================================================
+
+« Ma liste scolaire »
+
+Par :
+Pays → Établissement → Niveau → Classe → Année scolaire
+
+Exemple :
+5 cahiers
+4 stylos bleus
+2 stylos rouges
+1 règle
+1 équerre
+1 compas
+1 calculatrice
+
+Bouton :
+« Ajouter toute la liste au panier »
+
+==================================================
+SCANNER IA
+==================================================
+
+Fonction :
+📷 Scanner ma liste
+
+Photo → OCR/IA → liste structurée → validation humaine → panier.
+
+Extraire :
+- produit
+- quantité
+- format
+- marque éventuelle
+- catégorie
+
+Ne jamais commander automatiquement sans confirmation du parent.
+
+==================================================
+RENTRÉE EN 1 CLIC
+==================================================
+
+« Préparer ma rentrée »
+
+Regrouper :
+- fournitures
+- livres
+- cartable
+- uniforme
+- chaussures
+- informatique
+- assurance si disponible
+- transport
+- cantine
+- activités
+
+Afficher le total et permettre de modifier chaque élément.
+
+==================================================
+COMMANDES / PAIEMENTS / LIVRAISON
+==================================================
+
+Panier multi-vendeurs.
+
+Statuts :
+PENDING
+CONFIRMED
+PREPARING
+SHIPPED
+OUT_FOR_DELIVERY
+DELIVERED
+CANCELLED
+REFUNDED
+
+Paiement extensible :
+- Stripe
+- Apple Pay
+- Google Pay
+- moyens de paiement locaux
+
+Ne jamais stocker directement les données bancaires sensibles.
+
+Livraison :
+- domicile
+- école
+- point relais
+- retrait magasin
+- express
+
+==================================================
+CANTINE
+==================================================
+
+- menus
+- réservation
+- annulation
+- paiement
+- historique
+
+==================================================
+TRANSPORT SCOLAIRE
+==================================================
+
+- lignes
+- arrêts
+- horaires
+- trajets
+- transporteurs
+- notifications
+- GPS du bus si disponible
+
+Ne jamais exposer publiquement la localisation d’un enfant.
+
+==================================================
+ACTIVITÉS
+==================================================
+
+- football
+- basketball
+- musique
+- danse
+- natation
+- arts
+- théâtre
+- soutien scolaire
+- colonies
+- etc.
+
+Recherche par ville, distance, âge, catégorie, prix et disponibilité.
+
+==================================================
+DOCUMENTS
+==================================================
+
+Documents privés :
+- bulletins
+- certificats
+- autorisations
+- documents scolaires
+- factures
+- justificatifs
+
+Supabase Storage + policies privées.
+
+==================================================
+NOTIFICATIONS
+==================================================
+
+Push + in-app :
+- devoir
+- note
+- bulletin
+- annonce école
+- paiement
+- commande
+- livraison
+- activité
+- cantine
+- transport
+
+==================================================
+BASE DE DONNÉES
+==================================================
+
+Prévoir notamment :
+
+profiles
+parent_profiles
+student_profiles
+teacher_profiles
+school_profiles
+seller_profiles
+
+parent_children
+schools
+school_years
+classes
+class_students
+class_teachers
+
+subjects
+timetables
+homework
+homework_submissions
+grades
+report_cards
+
+school_supply_lists
+school_supply_list_items
+
+products
+product_categories
+product_images
+product_reviews
+inventory
+
+carts
+cart_items
+orders
+order_items
+order_status_history
+
+addresses
+deliveries
+delivery_agents
+
+payments
+invoices
+refunds
+
+books
+uniforms
+
+activities
+activity_bookings
+
+canteens
+canteen_menus
+canteen_reservations
+
+school_transport
+transport_routes
+transport_stops
+
+documents
+notifications
+announcements
+
+ai_conversations
+ai_messages
+
+favorites
+search_history
+audit_logs
+
+Créer PK, FK, index, timestamps, created_by, updated_at et soft delete lorsque pertinent.
+
+==================================================
+STORAGE
+==================================================
+
+Buckets privés :
+avatars
+school_documents
+report_cards
+homework_files
+product_images
+school_images
+
+Configurer correctement les policies.
+
+==================================================
+SÉCURITÉ / RGPD
+==================================================
+
+Priorité maximale car l’application concerne des mineurs.
+
+Implémenter :
+- RLS
+- permissions
+- validation serveur
+- validation client
+- protection des fichiers
+- audit logs
+- contrôle anti-IDOR
+- rate limiting lorsque nécessaire
+- minimisation des données
+- suppression/export des données
+- consentement parental lorsque nécessaire
+- confidentialité
+
+Ne mettre aucune clé secrète dans l’application mobile.
+
+==================================================
+INTERNATIONALISATION
+==================================================
+
+Préparer :
+Français
+Anglais
+
+Architecture extensible vers :
+Centrafrique
+Côte d’Ivoire
+Sénégal
+Cameroun
+RDC
+et autres pays.
+
+Ne pas coder uniquement le système scolaire français en dur.
+
+Prévoir :
+- pays
+- devise
+- fuseau horaire
+- format date
+- système éducatif configurable
+
+==================================================
+DESIGN SYSTEM
+==================================================
+
+Créer une interface moderne, familiale, éducative et premium.
+
+Prévoir :
+- clair/sombre
+- responsive
+- accessibilité
+- animations légères
+- composants réutilisables
+
+Composants :
+Button
+Input
+Card
+Badge
+Avatar
+Modal
+BottomSheet
+Tabs
+List
+EmptyState
+LoadingState
+ErrorState
+Toast
+SearchBar
+ProductCard
+SchoolCard
+ChildCard
+HomeworkCard
+GradeCard
+EventCard
+OrderCard
+PaymentCard
+SkeletonLoader
+
+==================================================
+ÉCRANS
+==================================================
+
+SplashScreen
+Onboarding
+Login
+Register
+ForgotPassword
+
+Home
+ChildSelector
+ChildProfile
+
+School
+SchoolDetails
+SchoolCalendar
+SchoolAnnouncements
+
+Timetable
+Homework
+HomeworkDetails
+Grades
+ReportCards
+
+AIStudyAssistant
+Quiz
+Revision
+
+SupplyList
+SupplyScanner
+SupplyListDetails
+
+Marketplace
+Categories
+ProductDetails
+Search
+Favorites
+
+Cart
+Checkout
+Payment
+Orders
+OrderDetails
+Tracking
+
+Books
+Uniforms
+Activities
+ActivityDetails
+
+Canteen
+Transport
+Documents
+Notifications
+
+Profile
+Settings
+Privacy
+Security
+
+SellerDashboard
+SellerProducts
+SellerOrders
+SellerInventory
+SellerPayments
+
+TeacherDashboard
+TeacherClasses
+TeacherStudents
+TeacherHomework
+TeacherGrades
+
+SchoolDashboard
+
+AdminDashboard
+AdminUsers
+AdminSchools
+AdminProducts
+AdminOrders
+AdminReports
+AdminSettings
+
+==================================================
+TESTS
+==================================================
+
+Créer :
+- tests unitaires
+- tests composants
+- tests intégration
+- tests permissions
+- tests RLS
+
+Tester les parcours :
+Parent → enfant
+Parent → liste fournitures
+Parent → panier
+Parent → commande
+Élève → devoir
+Élève → assistant
+Enseignant → devoir
+École → liste
+Vendeur → produit
+Admin → utilisateur
+
+==================================================
+PHASES DE DÉVELOPPEMENT
+==================================================
+
+PHASE 1 :
+Architecture
+Navigation
+Design system
+Auth
+Base de données
+Rôles
+RLS
+Splash Screen
+Cache
+Offline
+
+PHASE 2 :
+Parents
+Enfants
+Écoles
+Classes
+Emploi du temps
+Devoirs
+Notes
+
+PHASE 3 :
+Marketplace
+Produits
+Catégories
+Panier
+Commandes
+Vendeurs
+
+PHASE 4 :
+Listes scolaires
+Scanner IA
+Rentrée scolaire
+
+PHASE 5 :
+Cantine
+Transport
+Activités
+Documents
+
+PHASE 6 :
+Assistant IA
+Quiz
+Révisions
+
+PHASE 7 :
+Paiements
+Livraison
+Notifications
+
+PHASE 8 :
+Admin
+Analytics
+Audit
+
+PHASE 9 :
+Tests
+Optimisation
+Accessibilité
+Internationalisation
+
+==================================================
+RÈGLES CLAUDE CODE
+==================================================
+
+Ne te contente pas de donner des instructions : MODIFIE DIRECTEMENT LE PROJET.
+
+Ne crée pas de :
+- faux boutons
+- écrans statiques
+- fausses commandes
+- permissions uniquement côté UI
+- données fictives présentées comme réelles
+- TODO inutiles
+
+Après chaque phase :
+1. vérifier TypeScript
+2. lancer les tests
+3. corriger les erreurs
+4. vérifier navigation
+5. vérifier permissions
+6. vérifier migrations
+7. vérifier RLS
+8. documenter
+
+Créer .env.example sans secrets.
+
+Créer README complet.
+
+Si une API externe nécessite une clé non disponible, créer une abstraction propre et un mode développement clairement identifié.
+
+COMMENCE MAINTENANT :
+1. inspecte le projet ;
+2. explique brièvement l’architecture trouvée ;
+3. commence PHASE 1 ;
+4. implémente réellement les fichiers ;
+5. vérifie et corrige les erreurs ;
+6. passe ensuite aux phases suivantes lorsque la phase précédente est fonctionnelle.

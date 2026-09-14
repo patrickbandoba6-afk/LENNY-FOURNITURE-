@@ -60,6 +60,6 @@ export const fr = {
     settings: 'Paramètres',
     deliveries: 'Livraisons',
   },
-} as const;
+};
 
 export type TranslationSchema = typeof fr;
