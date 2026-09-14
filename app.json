@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "LENNY-FOURNITURE",
+    "slug": "lenny-fourniture",
+    "scheme": "lennyfourniture",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#0F172A"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lennyfourniture.app"
+    },
+    "android": {
+      "package": "com.lennyfourniture.app"
+    },
+    "plugins": ["expo-router"],
+    "extra": {
+      "router": {
+        "origin": false
+      }
+    }
+  }
+}
