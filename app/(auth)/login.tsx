@@ -64,7 +64,11 @@ export default function LoginScreen() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={[styles.title, { color: theme.text }]}>LENNY-FOURNITURE</Text>
+        <Image
+          source={require("../../assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
         <Text style={[styles.subtitle, { color: theme.textMuted }]}>
           Mode démo - explore la navigation et les fonctionnalités par rôle,
           sans compte.
