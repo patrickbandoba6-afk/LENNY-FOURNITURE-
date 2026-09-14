@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
+import { Text, View, Image, StyleSheet, ActivityIndicator } from "react-native";
 import { colors, spacing } from "@/constants/theme";
 import type { AppLifecycleState } from "@/types";
 
@@ -18,12 +18,12 @@ interface AppSplashScreenProps {
 export function AppSplashScreen({ state }: AppSplashScreenProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>LENNY-FOURNITURE</Text>
-      <Text style={styles.slogan}>Tout pour l'enfant, en un seul endroit.</Text>
-      <ActivityIndicator
-        color={colors.dark.primary}
-        style={styles.spinner}
+      <Image
+        source={require("../../assets/images/logo.png")}
+        style={styles.logo}
+        resizeMode="contain"
       />
+      <ActivityIndicator color={colors.light.primary} style={styles.spinner} />
       <Text style={styles.message}>{MESSAGES[state]}</Text>
     </View>
   );
@@ -32,24 +32,16 @@ export function AppSplashScreen({ state }: AppSplashScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.dark.background,
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
     padding: spacing.xl,
   },
   logo: {
-    color: colors.dark.text,
-    fontSize: 24,
-    fontWeight: "800",
-    letterSpacing: 1,
-  },
-  slogan: {
-    color: colors.dark.textMuted,
-    fontSize: 14,
-    marginTop: spacing.xs,
-    marginBottom: spacing.xl,
-    textAlign: "center",
+    width: 260,
+    height: 260,
+    marginBottom: spacing.lg,
   },
   spinner: { marginBottom: spacing.md },
-  message: { color: colors.dark.textMuted, fontSize: 13 },
+  message: { color: colors.light.textMuted, fontSize: 13 },
 });
